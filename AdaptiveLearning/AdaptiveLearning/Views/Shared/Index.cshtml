@@ -1,0 +1,64 @@
+﻿@model Dictionary<string, object>
+@{
+    //Model["learning"] is of type object and it can not be looped through. Which is why it is casted as IEnumerable<Learning>.
+    var dataList = (IEnumerable<Learning>)Model["learning"];
+    object date = "";
+    //Checking if dictionary contains key: "date". Because Home controller does not contain date but Learning controller does contain date.
+    if (Model.ContainsKey("date")) {
+        date = Model["date"];
+    }
+
+    ViewData["Title"] = "Display Data";
+    string[] TableHeaders = new string[] {"Submitted Answer Id"
+                    ,"Submit DateTime"
+                    ,"Correct"
+                    ,"Progress"
+                    ,"User Id"
+                    ,"Exercise Id"
+                    ,"Difficulty"
+                    ,"Subject"
+                    ,"Domain"
+                    ,"Learning Objective"};
+}
+<div align="center">
+<input class="jsDatetimePicker" type="date" min="2015-03-01" max="2015-03-31" value="@date"/>
+</div>
+<div class="table jsTable">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                @{
+                    foreach (var head in TableHeaders)
+                    {
+                        <th>
+                            @head
+                        </th>
+                    }
+                }
+            </tr>
+        </thead>
+
+        <tbody>
+            @{
+                if (dataList != null)
+                {
+                    foreach (var Data in dataList)
+                    {
+                        <tr>
+                            <td>@Data.SubmittedAnswerId</td>
+                            <td>@Data.SubmitDateTime</td>
+                            <td>@Data.Correct</td>
+                            <td>@Data.Progress</td>
+                            <td>@Data.UserId</td>
+                            <td>@Data.ExerciseId</td>
+                            <td>@Data.Difficulty</td>
+                            <td>@Data.Subject</td>
+                            <td>@Data.Domain</td>
+                            <td>@Data.LearningObjective</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
